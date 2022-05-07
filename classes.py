@@ -13,10 +13,11 @@ class SQL:
 class NewItem:
 
     @classmethod
-    def do(cls):
-        sql = SQL.do()
-        sql.execute("""""")
-        pass
+    def do(cls, n):
+        db = SQL.do()
+        sql = db.cursor()
+        sql.execute(n)
+        db.commit()
 
 
 class SqlPlayerGeneration:
@@ -55,7 +56,6 @@ class SqlStatusGeneration:
         
         );""")
         db.commit()
-
 
 
 class SqlSkillsGeneration:
@@ -116,7 +116,7 @@ class SqlCurrentItemGeneration:
     def do(cls):
         db = SQL.do()
         sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS actually_item(
+        sql.execute("""CREATE TABLE IF NOT EXISTS current_item(
         
         item_id INT,
         item_type VARCHAR,
