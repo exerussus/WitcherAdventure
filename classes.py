@@ -66,23 +66,24 @@ class SqlCharacterGeneration:
 
 class SqlEquipmentGeneration:
     @classmethod
-    sql = SQL.do()
-    sql.execute("""CREATE TABLE IF NOT EXISTS equipment(
-    
-    equipment_id INT,
-    
-    head INT,
-    body INT,
-    arms INT,
-    legs INT,
-    
-    first_weapon INT,
-    second_weapon INT,
-    
-    first_artifact INT,
-    second_artifact INT,
-    third_artefact INT
-    );""")
+    def do(cls):
+        sql = SQL.do()
+        sql.execute("""CREATE TABLE IF NOT EXISTS equipment(
+        
+        equipment_id INT,
+        
+        head INT,
+        body INT,
+        arms INT,
+        legs INT,
+        
+        first_weapon INT,
+        second_weapon INT,
+        
+        first_artifact INT,
+        second_artifact INT,
+        third_artefact INT
+        );""")
 
 
 class SQL:
