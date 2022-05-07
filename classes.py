@@ -1,10 +1,22 @@
 
 
+class SQL:
+
+    @classmethod
+    def do(cls):
+
+        import sqlite3
+
+        db = sqlite3.connect('database.db')
+        return db.cursor()
+
+
 class NewItem:
 
     @classmethod
     def do(cls):
         sql = SQL.do()
+        sql.execute("""""")
         pass
 
 
@@ -86,15 +98,26 @@ class SqlEquipmentGeneration:
         );""")
 
 
-class SQL:
-
+class SqlCurrentItemGeneration:
     @classmethod
     def do(cls):
-
-        import sqlite3
-
-        db = sqlite3.connect('database.db')
-        return db.cursor()
-
-
+        sql = SQL.do()
+        sql.execute("""CREATE TABLE IF NOT EXISTS actually_item(
+        
+        item_id INT,
+        
+        blunting_damage INT,
+        piercing_damage INT,
+        slashing_damage INT,
+        mental_damage INT,
+        
+        blunting_protection INT,
+        piercing_protection INT,
+        slashing_protection INT,
+        mental_protection INT,
+        
+        durability INT,
+        weight INT
+        
+        );""")
 
