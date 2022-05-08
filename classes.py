@@ -64,7 +64,11 @@ class SqlSkillsGeneration:
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS skills(
+        
         skills_id INT PRIMARY KEY,
+        
+        swords VARCHAR,
+        axes VARCHAR,
         
         
         );""")
@@ -121,10 +125,22 @@ class SqlCurrentItemGeneration:
         item_id INT,
         item_type VARCHAR,
         
-        blunting_damage INT,
-        piercing_damage INT,
-        slashing_damage INT,
-        mental_damage INT,
+        
+        thrust_blunting_damage INT,
+        thrust_piercing_damage INT,
+        thrust_slashing_damage INT,
+        thrust_mental_damage INT,
+        
+        slash_blunting_damage INT,
+        slash_piercing_damage INT,
+        slash_slashing_damage INT,
+        slash_mental_damage INT,
+        
+        pierce_blunting_damage INT,
+        pierce_piercing_damage INT,
+        pierce_slashing_damage INT,
+        pierce_mental_damage INT,
+        
         
         blunting_protection INT,
         piercing_protection INT,
