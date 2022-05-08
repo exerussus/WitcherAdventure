@@ -163,3 +163,34 @@ class SqlCurrentItemGeneration:
         );""")
         db.commit()
 
+
+class SqlNpcCreation:
+    @classmethod
+    def do(cls):
+        db = SQL.do()
+        sql = db.cursor()
+        sql.execute("""CREATE TABLE IF NOT EXISTS npc(
+        
+        npc_id INT,
+        name VARCHAR,
+        character_id INT,
+        equipment_id INT,
+        status_id INT,
+        skills_id INT
+        
+        );""")
+        db.commit()
+
+
+class SqlTablesCreation:
+
+    @classmethod
+    def do(cls):
+        SqlPlayerGeneration.do()
+        SqlSkillsGeneration.do()
+        SqlStatusGeneration.do()
+        SqlCharacterGeneration.do()
+        SqlEquipmentGeneration.do()
+        SqlCurrentItemGeneration.do()
+        SqlNpcCreation.do()
+
