@@ -179,7 +179,8 @@ class SqlCurrentItemGeneration:
         effect_id INT,
         
         durability INT,
-        weight INT
+        weight INT,
+        class INT
         
         );""")
         db.commit()
@@ -216,7 +217,27 @@ class SqlNpcCreation:
         character_id INT,
         equipment_id INT,
         status_id INT,
-        skills_id INT
+        skills_id INT,
+        class INT
+        
+        );""")
+        db.commit()
+
+
+class SqlLocationGeneration:
+
+    @classmethod
+    def do(cls):
+        db = SQL.do()
+        sql = db.cursor()
+        sql.execute("""CREATE TABLE IF NOT EXISTS location(
+        
+        location_id INT PRIMARY KEY,
+        
+        name VARCHAR,
+        location_effects_id INT,
+        location_event_id INT,
+        location_action_id INT
         
         );""")
         db.commit()
@@ -234,6 +255,7 @@ class SqlTablesCreation:
         SqlCurrentItemGeneration.do()
         SqlNpcCreation.do()
         SqlFightStatusGeneration.do()
+        SqlLocationGeneration.do()
 
 
 
