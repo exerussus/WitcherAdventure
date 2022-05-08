@@ -197,7 +197,7 @@ class SqlFightStatusGeneration:
         position VARCHAR,
         endurance INT,
         speed_points INT,
-        
+        reaction_points INT
         
         );""")
         db.commit()
