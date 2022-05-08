@@ -67,9 +67,17 @@ class SqlSkillsGeneration:
         
         skills_id INT PRIMARY KEY,
         
-        swords VARCHAR,
-        axes VARCHAR,
+        swords INT,
+        axes INT,
+        spears INT,
+        hummers INT,
         
+        athletics INT,
+        analysis INT,
+        survival INT,
+        magic INT,
+        medicine INT,
+        stealth Int
         
         );""")
         db.commit()
@@ -154,5 +162,4 @@ class SqlCurrentItemGeneration:
         
         );""")
         db.commit()
-
 
