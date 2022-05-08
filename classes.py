@@ -27,13 +27,16 @@ class SqlPlayerGeneration:
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS player(
+        
         player_id INT PRIMARY KEY,
         name VARCHAR,
         pass VARCHAR,
         character_id INT,
         equipment_id INT,
         status_id INT,
-        skills_id INT
+        skills_id INT,
+        fight_status_id INT
+        
         );""")
         db.commit()
 
@@ -45,20 +48,35 @@ class SqlStatusGeneration:
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS status(
+        
         status_id INT PRIMARY KEY, 
+        
         health INT,
         max_health INT,
+        
         stamina INT,
         max_stamina INT,
+        
         mana INT,
         max_mana INT,
+        
         speed INT,
+        
+        wound_1 INT,
+        wound_2 INT,
+        wound_3 INT,        
+        wound_4 INT,
+        wound_5 INT,
+        wound_6 INT,
+        wound_7 INT,
+        wound_8 INT
         
         );""")
         db.commit()
 
 
 class SqlSkillsGeneration:
+
     @classmethod
     def do(cls):
         db = SQL.do()
@@ -84,6 +102,7 @@ class SqlSkillsGeneration:
 
 
 class SqlCharacterGeneration:
+
     @classmethod
     def do(cls):
         db = SQL.do()
@@ -100,13 +119,14 @@ class SqlCharacterGeneration:
 
 
 class SqlEquipmentGeneration:
+
     @classmethod
     def do(cls):
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS equipment(
         
-        equipment_id INT,
+        equipment_id INT PRIMARY KEY,
         
         head INT,
         body INT,
@@ -124,13 +144,14 @@ class SqlEquipmentGeneration:
 
 
 class SqlCurrentItemGeneration:
+
     @classmethod
     def do(cls):
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS current_item(
         
-        item_id INT,
+        item_id INT PRIMARY KEY,
         item_type VARCHAR,
         
         
@@ -164,14 +185,33 @@ class SqlCurrentItemGeneration:
         db.commit()
 
 
+class SqlFightStatusGeneration:
+
+    @classmethod
+    def do(cls):
+        db = SQL.do()
+        sql = db.cursor()
+        sql.execute("""CREATE TABLE IF NOT EXISTS fight_status(
+        
+        fight_status_id INT PRIMARY KEY
+        position VARCHAR,
+        endurance INT,
+        speed_points INT,
+        
+        
+        );""")
+        db.commit()
+
+
 class SqlNpcCreation:
+
     @classmethod
     def do(cls):
         db = SQL.do()
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS npc(
         
-        npc_id INT,
+        npc_id INT PRIMARY KEY,
         name VARCHAR,
         character_id INT,
         equipment_id INT,
@@ -193,4 +233,7 @@ class SqlTablesCreation:
         SqlEquipmentGeneration.do()
         SqlCurrentItemGeneration.do()
         SqlNpcCreation.do()
+        SqlFightStatusGeneration.do()
+
+
 
