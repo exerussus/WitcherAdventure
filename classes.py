@@ -10,7 +10,7 @@ class SQL:
         return sqlite3.connect('database.db')
 
 
-class NewItem:
+class ItemNew:
 
     @classmethod
     def do(cls, n):
@@ -28,9 +28,8 @@ class SqlPlayerGeneration:
         sql = db.cursor()
         sql.execute("""CREATE TABLE IF NOT EXISTS player(
         
-        player_id INT PRIMARY KEY,
-        name VARCHAR,
-        pass VARCHAR,
+        name CHARACTER PRIMARY KEY,
+        pass CHARACTER,
         character_id INT,
         equipment_id INT,
         status_id INT,
@@ -258,4 +257,24 @@ class SqlTablesCreation:
         SqlLocationGeneration.do()
 
 
+class MenuPlayerEnter:
 
+    @classmethod
+    def do(cls):
+
+        db = SQL.do()
+        sql = db.cursor()
+
+        name = input("Введите имя персонажа: ")
+        password = input("Введите пароль: ")
+
+        check = sql.execute("""SELECT * FROM player WHERE name=?""", (name, ))
+        if check.fetchone() is None:
+            print("Персонаж отсутствует или введён неверный пароль.")
+        else:
+            player = check.fetchall()
+            if player[1] == password:
+                return name
+            else:
+                print("Персонаж отсутствует или введён неверный пароль.")
+                return None
