@@ -278,3 +278,19 @@ class MenuPlayerEnter:
             else:
                 print("Персонаж отсутствует или введён неверный пароль.")
                 return None
+
+
+class FightStarter:
+
+    @classmethod
+    def do(cls):
+        pass
+
+
+class FightRuler:
+
+    @classmethod
+    def do(cls):
+        pass
+
+
