@@ -121,3 +121,13 @@ class Fight:
         else:
             print('ChangePositionLogicError: unknown position. ')
 
+    @staticmethod
+    def change_position_accept(position):
+
+        accepted_positions = Fight.change_position_logic(position)
+        count = 0
+        for i in accepted_positions:
+            count += 1
+            print(f'{count}: {i}')
+        return accepted_positions
+
