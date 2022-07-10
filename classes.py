@@ -1,165 +1,123 @@
 
 
-class SQL:
+class Character:
 
-    @classmethod
-    def do(cls):
+    def __init__(self):
 
-        import sqlite3
+        self.alive = True
 
-        return sqlite3.connect('database.db')
+        self.reserve = {
 
+                            'health': 100,
+                            'stamina': 100,
+                            'concentration': 100,
+        }
 
-class NewItem:
+        self.resource = {
 
-    @classmethod
-    def do(cls, n):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute(n)
-        db.commit()
+                            'health': self.reserve['health'],
+                            'stamina': self.reserve['stamina'],
+                            'concentration': self.reserve['concentration'],
+        }
 
+        self.skill = {
+                            'speed': 1,
+                            'strength': 1,
+                            'constitution': 1,
+                            'intellect': 1,
+        }
 
-class SqlPlayerGeneration:
+        self.equipment = {
 
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS player(
-        player_id INT PRIMARY KEY,
-        name VARCHAR,
-        pass VARCHAR,
-        character_id INT,
-        equipment_id INT,
-        status_id INT,
-        skills_id INT
-        );""")
-        db.commit()
+                            'weapon': ['Simple Longsword', {'thrust': 1, 'slash': 1, 'blunt': 1}],
+                            'head': ['Black Hat', {'thrust': 2, 'slash': 3, 'blunt': 1}],
+                            'body': ['Black Jacket', {'thrust': 2, 'slash': 2, 'blunt': 2}],
+                            'arms': ['Black Gloves', {'thrust': 2, 'slash': 2, 'blunt': 1}],
+                            'legs': ['Black Boots', {'thrust': 2, 'slash': 1, 'blunt': 1}],
 
 
-class SqlStatusGeneration:
+        }
 
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS status(
-        status_id INT PRIMARY KEY, 
-        health INT,
-        max_health INT,
-        stamina INT,
-        max_stamina INT,
-        mana INT,
-        max_mana INT,
-        speed INT,
-        
-        );""")
-        db.commit()
+    def take_damage(self, damage):
 
+        self.resource['health'] -= damage
+        if self.resource['health'] <= 0:
+            self.alive = False
 
-class SqlSkillsGeneration:
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS skills(
-        
-        skills_id INT PRIMARY KEY,
-        
-        swords INT,
-        axes INT,
-        spears INT,
-        hummers INT,
-        
-        athletics INT,
-        analysis INT,
-        survival INT,
-        magic INT,
-        medicine INT,
-        stealth Int
-        
-        );""")
-        db.commit()
+    def deal_damage(self):
+
+        return self.equipment['weapon'][1]['thrust'] * (0.05 * self.skill['strength']), \
+               self.equipment['weapon'][1]['slash'] * (0.04 * self.skill['slash']), \
+               self.equipment['weapon'][1]['blunt'] * (0.04 * self.skill['blunt'])
+
+    def add_skill_level(self, skill):
+        self.skill[skill] += 1
+
+    def put_on(self, item):
+        """ ('type', 'name', {'thrust': value, 'slash': value, 'blunt': value}) """
+
+        self.equipment[item[0]] = [item[1], item[2]]
+
+    def __str__(self):
+        return 'hero'
 
 
-class SqlCharacterGeneration:
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS character(
-        character_id INT PRIMARY KEY,
-        strength INT,
-        dexterity INT,
-        intellect INT,
-        constitution INT,
-        will INT
-        );""")
-        db.commit()
+class Fight:
 
+    def __init__(self, hero, enemy):
+        from random import choice
 
-class SqlEquipmentGeneration:
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS equipment(
-        
-        equipment_id INT,
-        
-        head INT,
-        body INT,
-        arms INT,
-        legs INT,
-        
-        first_weapon INT,
-        second_weapon INT,
-        
-        first_artifact INT,
-        second_artifact INT,
-        third_artefact INT
-        );""")
-        db.commit()
+        self.position = [
+            'High', 'Vom Tag Left', 'Vom Tag Right', 'Ochs Left', 'Ochs Right',
+            'Long', 'Alber Left', 'Alber Right', 'Plug Left', 'Plug Right']
+        self.hero = hero
+        self.hero_position = choice(self.position)
+        self.enemy = enemy
+        self.enemy_position = choice(self.position)
 
+    def menu(self):
+        pass
 
-class SqlCurrentItemGeneration:
-    @classmethod
-    def do(cls):
-        db = SQL.do()
-        sql = db.cursor()
-        sql.execute("""CREATE TABLE IF NOT EXISTS current_item(
-        
-        item_id INT,
-        item_type VARCHAR,
-        
-        
-        thrust_blunting_damage INT,
-        thrust_piercing_damage INT,
-        thrust_slashing_damage INT,
-        thrust_mental_damage INT,
-        
-        slash_blunting_damage INT,
-        slash_piercing_damage INT,
-        slash_slashing_damage INT,
-        slash_mental_damage INT,
-        
-        pierce_blunting_damage INT,
-        pierce_piercing_damage INT,
-        pierce_slashing_damage INT,
-        pierce_mental_damage INT,
-        
-        
-        blunting_protection INT,
-        piercing_protection INT,
-        slashing_protection INT,
-        mental_protection INT,
-        
-        effect_id INT,
-        
-        durability INT,
-        weight INT
-        
-        );""")
-        db.commit()
+    def change_position(self, character, new_position):
+        if character == 'hero':
+            self.hero_position = new_position
+
+        elif character == 'enemy':
+            self.enemy_position = new_position
+
+        else:
+            print('ChangePositionError: unknown character. ')
+
+    @staticmethod
+    def change_position_logic(position):
+
+        if position == 'Long':
+            return 'High', 'Vom Tag Left', 'Vom Tag Right', 'Ochs Left', 'Ochs Right', 'Alber Left', 'Alber Right'
+
+        elif position == 'High':
+            return 'Vom Tag Left', 'Vom Tag Right', 'Ochs Left', 'Ochs Right', 'Long'
+
+        elif position == 'Vom Tag Left':
+            return 'High', 'Long', 'Plug Left'
+
+        elif position == 'Vom Tag Right':
+            return 'High', 'Long', 'Plug Right'
+
+        elif position in ['Ochs Left', 'Ochs Right']:
+            return 'High', 'Long'
+
+        elif position == 'Alber Left':
+            return 'Long', 'Plug Left'
+
+        elif position == 'Alber Right':
+            return 'Long', 'Plug Right'
+
+        elif position == 'Plug Left':
+            return 'Vom Tag Left', 'Alber Left'
+
+        elif position == 'Plug Right':
+            return 'Vom Tag Right', 'Alber Right'
+
+        else:
+            print('ChangePositionLogicError: unknown position. ')
 
